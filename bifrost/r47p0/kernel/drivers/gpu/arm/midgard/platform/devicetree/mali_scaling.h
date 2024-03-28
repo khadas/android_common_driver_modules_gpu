@@ -36,12 +36,6 @@ enum mali_scale_mode_t {
 	MALI_SCALING_MODE_MAX
 };
 
-enum mali_reset_item_t {
-	MALI_RESET_MODULE = 0,
-	MALI_RESET_APB_BUS,
-	MALI_RESET_MAX
-};
-
 typedef struct mali_dvfs_threshold_table {
 	uint32_t    freq_index;
 	uint32_t    voltage;
@@ -118,14 +112,15 @@ typedef struct mali_plat_info_t {
 #endif
 
 	struct platform_device *pdev;
+	void __iomem *reg_base_hiubus;
+	void __iomem *reg_base_aobus;
 	struct work_struct wq_work;
 	struct clk *clk_mali;
 	struct clk *clk_mali_0;
 	struct clk *clk_mali_1;
-	struct clk *clk_stack;//G310 in S7D have two clock
 	void __iomem *reg_base_reset;
-	void __iomem *reg_base_hiu;
 	u32 clk_cntl_reg;
+	s32 reset_g12a;
 } mali_plat_info_t;
 mali_plat_info_t* get_mali_plat_data(void);
 

@@ -126,8 +126,10 @@ int get_mali_freq_level(int freq)
         level = 0;
     else {
         for (i = 0; i < mali_freq_num; i++) {
-            if (freq < freq_table[i] / 1000000 && freq >= freq_table[i + 1] / 1000000)
+            if (freq < freq_table[i] / 1000000 && freq >= freq_table[i + 1] / 1000000) {
                 level = i + 1;
+                break;
+            }
         }
     }
     return level;
@@ -148,6 +150,7 @@ int get_mali_freq_level(int freq)
             if (freq >= mali_plat_data.clk_sample[i] && freq <= mali_plat_data.clk_sample[i + 1]) {
                 level = i;
                 level = mali_freq_num - level - 1;
+                break;
             }
         }
     }
@@ -391,7 +394,6 @@ void mali_post_init(void)
 #endif
         if (err < 0)
             printk("register GPU  cooling error\n");
-        printk("gpu cooling register okay with err=%d\n",err);
     }
 
     gccdev = gpucore_cooling_alloc();
@@ -408,7 +410,6 @@ void mali_post_init(void)
 #endif
         if (err < 0)
             printk("register GPU  cooling error\n");
-        printk("gpu core cooling register okay with err=%d\n",err);
     }
 #endif
 }
